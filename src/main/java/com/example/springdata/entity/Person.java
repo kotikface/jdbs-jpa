@@ -1,8 +1,6 @@
 package com.example.springdata.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Person {
@@ -13,6 +11,11 @@ public class Person {
     private String firstName;
     private  String lastName;
     private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "passport_id")
+    private  Passport passport;
+
+
     public  Person(){
     }
 
@@ -62,6 +65,14 @@ public class Person {
         this.address = address;
     }
 
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
     @Override
     public String toString() {
         return "\nPerson{" +
@@ -69,6 +80,7 @@ public class Person {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
+                ", passport=" + passport +
                 '}';
     }
 }

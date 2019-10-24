@@ -1,5 +1,6 @@
 package com.example.springdata.repository;
 
+import com.example.springdata.entity.Passport;
 import com.example.springdata.entity.Person;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -16,6 +17,8 @@ import java.util.List;
 public class PersonRepositoryTest {
    @Autowired
    PersonRepository personRepository;
+   @Autowired
+   PassportRepository passportRepository;
 
     @Test
     public void findByFirstName() {
@@ -31,5 +34,16 @@ public class PersonRepositoryTest {
         Assertions.assertThat(people).hasSize(8);
         Assertions.assertThat(people.get(7).getFirstName()).isEqualTo("Anna");
         Assertions.assertThat(people.get(1).getFirstName()).isEqualTo("Alla");
+    }
+
+    @Test
+    public void deletePassport() {
+      Passport passport =  passportRepository.findByNumber("Anna3242");
+      passport.getPerson().setPassport(null);
+      passportRepository.delete(passport);
+      List<Person> people = personRepository.findAll();
+      Assertions.assertThat(people).hasSize(2);
+      List<Passport> passports = passportRepository.findAll();
+      Assertions.assertThat(passports).hasSize(1);
     }
 }
